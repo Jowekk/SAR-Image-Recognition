@@ -16,17 +16,17 @@ direction and 12.1 m in the azimuth direction.
 
 Six-channels image display
 
-...
+[!SAR data](https://github.com/Jowekk/SAR-Image-Recognition/blob/master/images/SAR_data.png)
 
 ground truth display
 
-...
+[!SAR ground truth](https://github.com/Jowekk/SAR-Image-Recognition/blob/master/images/SAR_label.png)
 
 ## Network architecture
 
 The prototype of the network structure
 
-...
+[!network structure](https://github.com/Jowekk/SAR-Image-Recognition/blob/master/images/Network%20architecture.png)
 
 
 
@@ -34,7 +34,7 @@ The prototype of the network structure
 
 Training accuracy curve
 
-...
+[!Train curve](https://github.com/Jowekk/SAR-Image-Recognition/blob/master/images/Train_Accuracy.jpg)
 
 
 
