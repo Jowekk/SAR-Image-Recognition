@@ -42,7 +42,7 @@ logits = SAR_net(x, num_classes, is_training)
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=y))
 correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(y, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-train_step = tf.train.MomentumOptimizer(0.001, 0.7).minimize(cross_entropy)
+train_step = tf.train.MomentumOptimizer(0.001, 0.9).minimize(cross_entropy)
 
 loss_summary = tf.summary.scalar('loss', cross_entropy)
 accuracy_summary = tf.summary.scalar('accuracy', accuracy)

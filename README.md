@@ -38,4 +38,4 @@ Training accuracy curve
 
 
 
-Test accuracy:  **97.9%**
+Test accuracy:  **98.62%**

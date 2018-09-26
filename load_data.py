@@ -39,7 +39,7 @@ for i in range(width):
                 X[temp_num, :, :, :] = imgs[i-4 :i+4, j-4 :j+4, :]
                 Y[temp_num] = labels[i,j]
                 temp_num = temp_num + 1
-                print "Number of samples:", temp_num
+                #print "Number of samples:", temp_num
                 
 temp_data = list(zip(X, Y))
 random.shuffle(temp_data)
