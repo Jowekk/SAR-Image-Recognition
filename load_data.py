@@ -27,7 +27,7 @@ imgs[:,:,5] = data_temp['F']
 n = 8
 nums = 13960
 temp_num = 0
-num_classes = 16
+num_classes = 15
 X = np.zeros((nums, n, n, channels), dtype=np.float32)
 Y = np.zeros((nums, 1) ,dtype=int)
 kernel = cv2.getStructuringElement(cv2.MORPH_RECT,(3, 3))
@@ -47,7 +47,7 @@ X[:,:,:,:], Y[:] = zip(*temp_data)
 
 one_hot = np.zeros((nums, num_classes))
 for num in range(nums):
-    one_hot[num, Y[num]] = 1
+    one_hot[num, Y[num]-1] = 1
 
 print(X.shape)
 print(one_hot.shape)   

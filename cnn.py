@@ -20,9 +20,9 @@ y_test = Y[train_nums:]
 
 def SAR_net(inputs, num_classes, is_training, scope='SAR_net'):
     with tf.variable_scope(scope, 'SAR_net'):
-        net = slim.conv2d(inputs, 20, [3,3], padding='SAME', scope='conv_1')
+        net = slim.conv2d(inputs, 64, [3,3], padding='SAME', scope='conv_1')
         net = slim.max_pool2d(net, 2, stride=2, scope='maxpool_1')
-        net = slim.conv2d(net, 50, [2,2], padding='SAME', scope='conv_2')
+        net = slim.conv2d(net, 128, [2,2], padding='SAME', scope='conv_2')
         net = slim.max_pool2d(net, 2, stride=2, scope='maxpool_2')
 
         net = slim.flatten(net)
@@ -34,7 +34,7 @@ def SAR_net(inputs, num_classes, is_training, scope='SAR_net'):
     return net
 
 x = tf.placeholder(tf.float32, shape=[None, 8, 8, 6], name='inputs')
-y = tf.placeholder(tf.float32, shape=[None, 16], name='labels')
+y = tf.placeholder(tf.float32, shape=[None, num_classes], name='labels')
 is_training = tf.placeholder(tf.bool, name='is_training')
 
 logits = SAR_net(x, num_classes, is_training)
@@ -55,7 +55,7 @@ saver = tf.train.Saver()
 
 #train_writer = tf.summary.FileWriter(log_path, sess.graph)
 
-for i in range(300000):
+for i in range(350000):
     next_batch = int(i % train_it_max)
     train_images = x_train[next_batch*batch_size:(next_batch+1)*batch_size,:,:,:]
     train_labels = y_train[next_batch*batch_size:(next_batch+1)*batch_size,:]
@@ -67,9 +67,9 @@ for i in range(300000):
         print("Step: %5d, Train Accuracy = %5.2f%%" % (i, acc * 100))
 
         
-acc = sess.run(accuracy, feed_dict={x: x_test, y: y_test, is_training: False}) #TODO
+val_acc = sess.run(accuracy, feed_dict={x: x_test, y: y_test, is_training: False}) #TODO
 print("----------ALL ATTENTION-----------")
-print("Validation Accuracy = %5.2f%%" % (acc * 100))
+print("Validation Accuracy = %5.2f%%" % (val_acc * 100))
 
 
 #saver.save(sess, log_path)
