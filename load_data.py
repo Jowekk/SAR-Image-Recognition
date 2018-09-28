@@ -51,7 +51,27 @@ for num in range(nums):
 
 print(X.shape)
 print(one_hot.shape)   
-            
+
+# all images dataset for test
+
+temp_num = 0
+image_nums = 156741
+X_all = np.zeros((image_nums, n, n, channels), dtype=np.float32)
+Y_all = np.zeros((image_nums, 1) ,dtype=int)
+for i in range(width):
+    for j in range(height):
+       if labels[i][j] != 0 :
+           if (i-4)>0 and (i+4)<width and (j-4)>0 and (j+4)<height:
+
+               X_all[temp_num, :, :, :] = imgs[i-4 :i+4, j-4 :j+4, :]
+               Y_all[temp_num] = labels[i,j]
+               temp_num = temp_num + 1
+
+Y_all_one = np.zeros((image_nums, num_classes))
+for image_num in range(image_nums):
+    Y_all_one[image_num, Y_all[image_num]-1] = 1
+
+print "****  ALL  DONE ****"
 
 '''
 n = 8

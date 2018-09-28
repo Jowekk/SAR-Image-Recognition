@@ -2,12 +2,13 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from load_data import one_hot as Y
-from load_data import X, num_classes
+from load_data import Y_all_one as Y_all
+from load_data import X, num_classes, X_all
 
 log_path = './log'
 
 batch_size = 64
-train_nums = int(X.shape[0] * 0.7) # 9772
+train_nums = int(X.shape[0] * 0.8) # 9772
 test_nums = X.shape[0] - train_nums # 4188
 train_it_max = np.floor(train_nums/batch_size)
 test_it_max = np.floor(test_nums/batch_size)
@@ -66,10 +67,14 @@ for i in range(350000):
         #train_writer.add_summary(summary, i)
         print("Step: %5d, Train Accuracy = %5.2f%%" % (i, acc * 100))
 
-        
-val_acc = sess.run(accuracy, feed_dict={x: x_test, y: y_test, is_training: False}) #TODO
+val_acc_all = np.zeros((153, 1))
+for j in range(153):
+    val_images = X_all[j*1024 :(j+1)*1024, :, :, :]
+    val_labels = Y_all[j*1024 :(j+1)*1024, :]
+    val_acc_all[j] = sess.run(accuracy, feed_dict={x: val_images, y: val_labels, is_training: False}) #TODO
+    print val_acc_all[j]
 print("----------ALL ATTENTION-----------")
-print("Validation Accuracy = %5.2f%%" % (val_acc * 100))
+print("Validation Accuracy = %5.2f%%" % (np.mean(val_acc_all) * 100))
 
 
 #saver.save(sess, log_path)
