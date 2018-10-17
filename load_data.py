@@ -58,6 +58,7 @@ temp_num = 0
 image_nums = 156741
 X_all = np.zeros((image_nums, n, n, channels), dtype=np.float32)
 Y_all = np.zeros((image_nums, 1) ,dtype=int)
+local_all = np.zeros((image_nums,2), dtype=int)
 for i in range(width):
     for j in range(height):
        if labels[i][j] != 0 :
@@ -65,6 +66,7 @@ for i in range(width):
 
                X_all[temp_num, :, :, :] = imgs[i-4 :i+4, j-4 :j+4, :]
                Y_all[temp_num] = labels[i,j]
+               local_all[temp_num,:] =[i,j] 
                temp_num = temp_num + 1
 
 Y_all_one = np.zeros((image_nums, num_classes))

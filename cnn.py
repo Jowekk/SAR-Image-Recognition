@@ -3,9 +3,10 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from load_data import one_hot as Y
 from load_data import Y_all_one as Y_all
-from load_data import X, num_classes, X_all
+from load_data import X, num_classes, X_all, local_all
+import matplotlib.pyplot as plt
 
-log_path = './log'
+log_path = '/home/yangqiao/Documents/research/SAR/code/log/model.ckpt'
 
 batch_size = 64
 train_nums = int(X.shape[0] * 0.8) # 9772
@@ -13,7 +14,7 @@ test_nums = X.shape[0] - train_nums # 4188
 train_it_max = np.floor(train_nums/batch_size)
 test_it_max = np.floor(test_nums/batch_size)
 
-x_train = X[0:train_nums,:,:,:]
+x_train = X[0:train_nums,:,:,:] #0:train_nums
 y_train = Y[0:train_nums,:]
 
 x_test = X[train_nums:,:,:,:]
@@ -55,8 +56,9 @@ sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver()
 
 #train_writer = tf.summary.FileWriter(log_path, sess.graph)
+#saver.restore(sess, log_path)
 
-for i in range(350000):
+for i in range(350000): 
     next_batch = int(i % train_it_max)
     train_images = x_train[next_batch*batch_size:(next_batch+1)*batch_size,:,:,:]
     train_labels = y_train[next_batch*batch_size:(next_batch+1)*batch_size,:]
@@ -76,5 +78,24 @@ for j in range(153):
 print("----------ALL ATTENTION-----------")
 print("Validation Accuracy = %5.2f%%" % (np.mean(val_acc_all) * 100))
 
+'''
+ans = np.zeros((750, 1024) ,dtype=int)
+temp_num = 0
+bs = 1024
+for j in range(153):
+    val_images = X_all[j*bs :(j+1)*bs, :, :, :]
+    val_labels = Y_all[j*bs :(j+1)*bs, :]
+    temp = sess.run(tf.argmax(logits, 1), feed_dict={x: val_images, y: val_labels, is_training: False}) #TODO
+    for k in range(bs):
+        ans[local_all[temp_num,0], local_all[temp_num,1]] = temp[k]
+        temp_num = temp_num + 1
+plt.imshow(ans)
+plt.show()
+'''
+'''
 
-#saver.save(sess, log_path)
+
+
+
+
+'''
